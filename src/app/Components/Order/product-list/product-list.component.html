@@ -1,20 +1,5 @@
-<div>
-  <div class="mb-3">
-    <label for="categorySelect" class="form-label">Select Category</label>
-    <select
-      class="form-select form-select-lg"
-      name="categorySelect"
-      id="categorySelect"
-      [(ngModel)]="selectedCat"
-    >
-      <option *ngFor="let cat of catList" [value]="cat.id">
-        {{ cat.name }}
-      </option>
-    </select>
-  </div>
-</div>
-<div>
-  <h3>{{ selectedCat }}</h3>
+
+<div> 
   <input type="number" #catID class="form-control" />
   <button
     type="button"
@@ -24,6 +9,7 @@
     change Category
   </button>
 </div>
+<h1>{{orderDate | date:'cc-MM-yyyy'}}</h1>
 <div class="table-responsive">
   <table class="table">
     <thead class="bg-dark text-dark">
@@ -32,7 +18,8 @@
         <th scope="col">Name</th>
         <th scope="col">Image</th>
         <th scope="col">Av. Quantity</th>
-        <th scope="col">Price</th>
+        <th scope="col">Price in USD</th>
+        <th scope="col">Price in EGP</th>
         <th scope="col">Count</th>
         <th scope="col">Buy</th>
       </tr>
@@ -42,10 +29,10 @@
       <!--<tr *ngFor="let prd of prdList; let i =index; trackBy:prdTrack" > !-->
       <!--  <ng-container *ngFor="let prd of prdList;let i = index;"> -->
       <!--<tr *ngIf="prd.quantity>0"> -->
-      <tr *ngFor="let prd of prdList; let i = index">
+      <tr *ngFor="let prd of prdListFiltered; let i = index">
         <td>{{ i + 1 }}</td>
         <td>{{ prd.name }}</td>
-        <td><img LightBox src="{{ prd.imgURL }}" alt="imgss" /></td>
+        <td><img LightBox="red" backgroundColor="black" src="{{ prd.imgURL }}" alt="imgss" /></td>
         <!-- <td>
           <div *ngIf="prd.quantity!=0;else outOfStock;"> {{ prd.quantity }}</div> 
           <ng-template #outOfStock> Out of Stock</ng-template>
@@ -58,7 +45,8 @@
             <div *ngSwitchDefault> {{prd.quantity}} </div>    
 
         </td>
-        <td>{{ prd.price }}</td>
+        <td>{{ prd.price | currency : 'USD': 'symbol'}}</td>
+        <td>{{ prd.price | uSDtoEGP : 10 | currency : 'EGP' : 'code'}}</td> 
         <td><input type="number" #countNumber class="form-control" /></td>
         <td>
           <button
@@ -75,5 +63,6 @@
     </tbody>
   </table>
   <hr />
-  <h3>Total Price : {{ orderTotalPrice }}</h3>
+  <h3>Total Price : {{ orderTotalPrice | currency}}</h3>
+  <h3>Total Price : {{ orderTotalPrice | uSDtoEGP : 40 | currency:'EGP'}}</h3>
 </div>

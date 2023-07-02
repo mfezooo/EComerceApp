@@ -1,18 +1,24 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Directive({
   selector: '[LightBox]'
 })
-export class LightBoxDirective {
+export class LightBoxDirective implements OnChanges{
 
+  @Input("LightBox") highlightColor:string = "yellow";
+  @Input() backgroundColor:string = "blue";
+
+  
   constructor(private elementRef : ElementRef)
    { 
-    elementRef.nativeElement.style.border="2px solid darkblue";
+  }
+  ngOnChanges(): void {
+    this.elementRef.nativeElement.style.border=`4px solid ${this.backgroundColor}`; 
   }
 @HostListener('mouseover') onMouseOver(){
- this.elementRef.nativeElement.style.border="2px solid yellow";
+ this.elementRef.nativeElement.style.border=`4px solid ${this.highlightColor}`;
 }
 @HostListener('mouseout') onMouseOut(){
-  this.elementRef.nativeElement.style.border="2px solid darkblue";
+  this.elementRef.nativeElement.style.border=`4px solid ${this.backgroundColor}`;
  }
 }

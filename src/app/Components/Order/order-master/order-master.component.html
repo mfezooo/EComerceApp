@@ -1,0 +1,20 @@
+<div>
+    <div class="mb-3">
+      <label for="categorySelect" class="form-label">Select Category</label>
+      <select #sCategory
+        class="form-select form-select-lg"
+        name="categorySelect"
+        id="categorySelect"
+        [(ngModel)]="selectedCat" >
+        <option *ngFor="let cat of catList" [value]="cat.id">
+          {{ cat.name }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="bg-danger">
+    <app-product-list [sentCatID]="selectedCat" (totalPriceChanged)="onPriceChanged($event)"></app-product-list>
+  </div>
+  <div>
+   <h3>Total Order Price: {{recivedTotalOrderPrice}}</h3>
+  </div>
